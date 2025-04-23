@@ -38,7 +38,6 @@
             align-items: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             height: 80px;
-            width: 100%;
             z-index: 1000;
         }
 
@@ -217,7 +216,6 @@
             width: 250px;
             height: calc(100vh - 80px);
             top: 80px;
-            left: 0;
             background-color: white;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             padding: 1.5rem 0;
@@ -255,6 +253,9 @@
             margin-left: 250px;
             padding: 2rem;
             margin-top: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
 
         .form-container {
@@ -623,33 +624,30 @@
     <div class="main-content">
         <div class="form-container">
             <h2 class="form-title">Edit Profile</h2>
-            <div class="profile-img" id="profileImg">
-                <input type="file" id="profileImageInput" accept="image/*">
-                <img id="profileImage" src="" alt="Profile Picture">
-            </div>
-            <span class="profile-img-label">Click to change profile picture</span>
             <form id="editProfileForm">
                 <div class="form-group">
-                    <label for="fullName" class="form-label">Full Name</label>
-                    <input type="text" id="fullName" class="form-input" required>
+                    <label for="fullName" class="form-label">Name</label>
+                    <input type="text" id="name" class="form-input" required>
                 </div>
                 <div class="form-group">
                     <label for="email" class="form-label">Email Address</label>
                     <input type="email" id="email" class="form-input" required>
                 </div>
-                <div class="form-group">
-                    <label for="phone" class="form-label">Phone Number</label>
-                    <input type="tel" id="phone" class="form-input" required>
-                </div>
                 <div class="form-buttons">
-                    <button type="submit" class="form-btn submit-btn">Save Changes</button>
+                    <button type="submit" onclick=editProfile() class="form-btn submit-btn">Save Changes</button>
                     <button type="button" class="form-btn cancel-btn"
                         onclick="window.location.href='dashboard.html'">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
     <script>
         // Load user data
         document.addEventListener('DOMContentLoaded', () => {

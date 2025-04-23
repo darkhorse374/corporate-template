@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BookByte - My Books</title>
+  <title>BookByte - Dashboard</title>
   <style>
     * {
       box-sizing: border-box;
@@ -26,10 +26,8 @@
     }
 
     .header {
-      position: fixed;
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
       background-color: #1925ff;
       color: white;
       padding: 1rem 2rem;
@@ -38,8 +36,8 @@
       align-items: center;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       height: 80px;
-      width: 100%;
-      z-index: 1000;
+      width: 100vw;
+      z-index: 10;
     }
 
     .logo {
@@ -324,11 +322,9 @@
       width: 250px;
       height: calc(100vh - 80px);
       top: 80px;
-      left: 0;
       background-color: white;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
       padding: 1.5rem 0;
-      z-index: 999;
     }
 
     .sidebar-menu {
@@ -341,16 +337,6 @@
       align-items: center;
       cursor: pointer;
       transition: background-color 0.2s;
-      text-decoration: none;
-      color: #333;
-    }
-
-    .sidebar-item a {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      text-decoration: none;
-      color: inherit;
     }
 
     .sidebar-item:hover {
@@ -366,18 +352,11 @@
       margin-right: 0.75rem;
       width: 20px;
       height: 20px;
-      color: #333;
-    }
-
-    .sidebar-text {
-      font-size: 1rem;
-      font-weight: 400;
     }
 
     .main-content {
       margin-left: 250px;
       padding: 2rem;
-      margin-top: 80px;
     }
 
     .search-container {
@@ -659,15 +638,10 @@
 
       .sidebar-item {
         padding: 0.75rem 1rem;
-        justify-content: center;
       }
 
       .sidebar-text {
         display: none;
-      }
-
-      .sidebar-icon {
-        margin-right: 0;
       }
 
       .main-content {
@@ -707,6 +681,10 @@
 
     #popupForm {
       display: none;
+    }
+
+    #updateFormPopup{
+        display: none;
     }
 
     .modal {
@@ -788,7 +766,7 @@
       background: rgba(220, 53, 69, 1);
     }
 
-    .save-btn {
+    .update-btn {
       position: absolute;
       top: 10px;
       right: 10px;
@@ -808,50 +786,16 @@
       opacity: 0;
     }
 
-    .book-card:hover .save-btn {
+    .book-card:hover .update-btn {
       opacity: 1;
     }
 
-    .save-btn:hover {
+    .update-btn:hover {
       transform: scale(1.1);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
-    .save-btn svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .delete-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: linear-gradient(135deg, #ff4444, #ff0000);
-      color: white;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
-      z-index: 2;
-      opacity: 0;
-    }
-
-    .book-card:hover .delete-btn {
-      opacity: 1;
-    }
-
-    .delete-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .delete-btn svg {
+    .update-btn svg {
       width: 20px;
       height: 20px;
     }
@@ -892,49 +836,57 @@
   <div class="sidebar">
     <ul class="sidebar-menu">
       <li class="sidebar-item">
-        <a href="dashboard.html">
-          <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-          </svg>
-          <span class="sidebar-text">Dashboard</span>
-        </a>
+        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span class="sidebar-text">Dashboard</span>
       </li>
       <li class="sidebar-item active">
-        <a href="my-books.html">
-          <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-          </svg>
-          <span class="sidebar-text">My Books</span>
-        </a>
+        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5
+              2z"></path>
+        </svg>
+        <span class="sidebar-text">My Books</span>
       </li>
       <li class="sidebar-item">
-        <a href="saved.html">
-          <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-          </svg>
-          <span class="sidebar-text">Saved</span>
-        </a>
+        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span class="sidebar-text">Saved</span>
       </li>
       <li class="sidebar-item">
-        <a href="basket.html">
-          <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9" cy="21" r="1"></circle>
-            <circle cx="20" cy="21" r="1"></circle>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-          </svg>
-          <span class="sidebar-text">Cart</span>
-        </a>
+        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23
+              6H6"></path>
+        </svg>
+        <span class="sidebar-text">Cart</span>
       </li>
       <li class="sidebar-item">
-        <a href="editUser.html">
-          <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-          <span class="sidebar-text">Settings</span>
-        </a>
+        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2
+              2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1
+              1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9
+              19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1
+              0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2
+              2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0
+              0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65
+              1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0
+              0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0
+              1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65
+              1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2
+              0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span class="sidebar-text">Settings</span>
       </li>
     </ul>
   </div>
@@ -958,33 +910,71 @@
       </div>
     </div>
 
-    <h2 class="section-title">My Books</h2>
+    <h2 class="section-title">My Selling Books</h2>
     <div class="books-grid" id="booksContainer">
     </div>
 
     <div id="popupForm" class="modal">
-      <div class="popup-form form-container">
-        <form id="textbookForm" class="form-content">
-          <h2 class="form-title">Add New Textbook</h2>
-
-          <label for="textbookName" class="form-label">Textbook Name</label>
-          <input type="text" id="textbookName" class="form-input" required />
-          <label for="author" class="form-label">Author</label>
-          <input type="text" id="author" class="form-input" required />
-
-          <label for="price" class="form-label">Price</label>
-          <input type="number" id="price" class="form-input" required />
-          <label for="photo" class="form-label">Photo Link</label>
-          <input type="text" id="photo" class="form-input" required />
-
-          <div class="form-buttons">
-            <button type="submit" class="form-btn submit-btn">Submit</button>
-            <button type="button" id="closePopupBtn" class="form-btn
-                cancel-btn">Cancel</button>
-          </div>
-        </form>
+        <div class="popup-form form-container">
+          <form id="textbookForm" class="form-content">
+            <h2 class="form-title">Add New Textbook</h2>
+  
+            <label for="textbookName" class="form-label">Textbook Name</label>
+            <input type="text" id="textbookName" class="form-input" required />
+            <label for="author" class="form-label">Author</label>
+            <input type="text" id="author" class="form-input" required />
+  
+            <label for="price" class="form-label">Price</label>
+            <input type="number" id="price" class="form-input" required />
+  
+            <label for="type" class="form-label">Book Type:</label>
+              <select id="typeNew" class="form-input" name="type">
+                <option value="textbook">Textbook</option>
+                <option value="fiction">Fiction</option>
+                <option value="nonfiction">Nonfiction</option>
+              </select>
+            <label for="photo" class="form-label">Photo Link</label>
+            <input type="text" id="photo" class="form-input" required />
+  
+            <div class="form-buttons">
+              <button type="submit" class="form-btn submit-btn">Submit</button>
+              <button type="button" id="closePopupBtn" class="form-btn
+                  cancel-btn">Cancel</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+
+      <div id="updateFormPopup" class="modal">
+        <div class="popup-form form-container">
+          <form id="updateForm" class="form-content">
+            <h2 class="form-title">Edit Textbook</h2>
+  
+            <label for="textbookName" class="form-label">Textbook Name</label>
+            <input type="text" id="textbookNameNew" class="form-input" required />
+            <label for="author" class="form-label">Author</label>
+            <input type="text" id="authorNew" class="form-input" required />
+  
+            <label for="price" class="form-label">Price</label>
+            <input type="number" id="priceNew" class="form-input" required />
+  
+            <label for="type" class="form-label">Book Type:</label>
+              <select id="typeNew" class="form-input" name="type">
+                <option value="textbook">Textbook</option>
+                <option value="fiction">Fiction</option>
+                <option value="nonfiction">Nonfiction</option>
+              </select>
+            <label for="photo" class="form-label">Photo Link</label>
+            <input type="text" id="photoNew" class="form-input" required />
+  
+            <div class="form-buttons">
+              <button type="submit" class="form-btn submit-btn">Submit</button>
+              <button type="button" id="closePopup" class="form-btn
+                  cancel-btn">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
 
     <div class="delete-modal" id="deleteModal">
       <div class="delete-modal-content">
@@ -997,6 +987,14 @@
       </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID"></script>
     <script>
       // // Check if user is logged in
       // const token = localStorage.getItem('token');
@@ -1025,71 +1023,62 @@
       // Sample book data for testing
       const sampleBooks = [
         {
-          "id": 1,
-          "title": "Introduction to Computer Science",
-          "author": "John Smith",
-          "price": 45.99,
-          "image": "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
+          id: 1,
+          title: "Introduction to Computer Science",
+          author: "John Smith",
+          price: 45.99,
+          image: "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
         },
         {
-          "id": 2,
-          "title": "Calculus: Early Transcendentals",
-          "author": "James Stewart",
-          "price": 59.99,
-          "image": "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
+          id: 2,
+          title: "Calculus: Early Transcendentals",
+          author: "James Stewart",
+          price: 59.99,
+          image: "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
         },
         {
-          "id": 3,
-          "title": "The Great Gatsby",
-          "author": "F. Scott Fitzgerald",
-          "price": 12.50,
-          "image": "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
+          id: 3,
+          title: "The Great Gatsby",
+          author: "F. Scott Fitzgerald",
+          price: 12.50,
+          image: "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
         },
         {
-          "id": 4,
-          "title": "Organic Chemistry",
-          "author": "David Klein",
-          "price": 72.25,
-          "image": "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
+          id: 4,
+          title: "Organic Chemistry",
+          author: "David Klein",
+          price: 72.25,
+          image: "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
         }
       ];
+      
+  const books = [];
+      async function loadMyBooksFromFirestore() {
+  await new Promise(r => setTimeout(r, 200));
+  const user = firebase.auth().currentUser;
+  const userId = user.uid;
+  try {
+      const snapshot = await db.collection("textbooks").doc("sellingTextbooks").collection("books").where("user", "==", userId).get();
 
-      // Load books from localStorage or use sample books
-      let myBooks = JSON.parse(localStorage.getItem('myBooks')) || [];
-      displayBooks(myBooks);
-
-      // Form submission handler
-      document.getElementById('textbookForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const newBook = {
-          id: Date.now(), // Generate unique ID
-          title: document.getElementById('textbookName').value,
-          author: document.getElementById('author').value,
-          price: parseFloat(document.getElementById('price').value),
-          image: document.getElementById('photo').value
-        };
-
-        // Add to myBooks array
-        myBooks.push(newBook);
-        
-        // Save to localStorage
-        localStorage.setItem('myBooks', JSON.stringify(myBooks));
-
-        // Also save to allBooks for dashboard
-        let allBooks = JSON.parse(localStorage.getItem('allBooks')) || [];
-        allBooks.push(newBook);
-        localStorage.setItem('allBooks', JSON.stringify(allBooks));
-        
-        // Update display
-        displayBooks(myBooks);
-        
-        // Reset form and close modal
-        this.reset();
-        document.getElementById('popupForm').style.display = 'none';
-        
-        alert('Book added successfully!');
+      snapshot.forEach(doc => {
+      const data = doc.data();
+      books.push({
+          id: data.id,
+          title: data.name || "Untitled",
+          filter: data.type,
+          author: data.author || "Unknown",
+          price: data.price || 0.0,
+          type: data.type,
+          image: data.photo || "https://via.placeholder.com/100"
       });
+      });
+
+      displayBooks(books);
+  } catch (error) {
+      console.error("Error loading books from Firestore:", error);
+  }
+  }
+      loadMyBooksFromFirestore();
 
       // Function to display books
       function displayBooks(books) {
@@ -1097,7 +1086,7 @@
         booksContainer.innerHTML = '';
 
         if (books.length === 0) {
-          booksContainer.innerHTML = '<div class="no-results">You haven\'t added any books yet.</div>';
+          booksContainer.innerHTML = '<div class="no-results">No books found matching your search.</div>';
           return;
         }
 
@@ -1105,60 +1094,39 @@
           const bookElement = document.createElement('div');
           bookElement.className = 'book-card';
           bookElement.innerHTML = `
-            <button class="delete-btn" onclick="deleteBook(${book.id})">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 6h18"></path>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-              </svg>
-            </button>
-            <div class="book-img">
-              <img src="${book.image}" alt="${book.title}" onerror="this.onerror=null; this.src='https://via.placeholder.com/100';" width="100">
-            </div>
-            <div class="book-info">
-              <h3 class="book-title">${book.title}</h3>
-              <p class="book-author">by ${book.author}</p>
-              <p class="book-price">$${book.price.toFixed(2)}</p>
-            </div>
-          `;
+          <button class="update-btn" onclick="openUpdatePopUp(${book.id})">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21,12a1,1,0,0,0-1,1v6a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V5A1,1,0,0,1,5,4h6a1,1,0,0,0,0-2H5A3,3,0,0,0,2,5V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V13A1,1,0,0,0,21,12ZM6,12.76V17a1,1,0,0,0,1,1h4.24a1,1,0,0,0,.71-.29l6.92-6.93h0L21.71,8a1,1,0,0,0,0-1.42L17.47,2.29a1,1,0,0,0-1.42,0L13.23,5.12h0L6.29,12.05A1,1,0,0,0,6,12.76ZM16.76,4.41l2.83,2.83L18.17,8.66,15.34,5.83ZM8,13.17l5.93-5.93,2.83,2.83L10.83,16H8Z"></path>
+          </svg>
+        </button>
+        <div class="book-img">
+          <img src="${book.image}" alt="${book.title}" onerror="this.onerror=null; this.src='https://via.placeholder.com/100';" width="100">
+        </div>
+        <div class="book-info">
+          <h3 class="book-title">${book.title}</h3>
+          <p class="book-author">by ${book.author}</p>
+          <p class="book-price">$${book.price.toFixed(2)}</p>
+        </div>
+      `;
           booksContainer.appendChild(bookElement);
         });
       }
 
-      // Function to delete a book
-      function deleteBook(bookId) {
-        // Remove from myBooks
-        myBooks = myBooks.filter(book => book.id !== bookId);
-        localStorage.setItem('myBooks', JSON.stringify(myBooks));
-        
-        // Also remove from allBooks (used by dashboard)
-        let allBooks = JSON.parse(localStorage.getItem('allBooks')) || [];
-        allBooks = allBooks.filter(book => book.id !== bookId);
-        localStorage.setItem('allBooks', JSON.stringify(allBooks));
-        
-        displayBooks(myBooks);
-      }
 
-      // Search functionality
       const searchInput = document.querySelector('.search-input');
       const searchBtn = document.querySelector('.search-btn');
 
       searchBtn.addEventListener('click', () => {
         const searchTerm = searchInput.value.toLowerCase().trim();
         if (searchTerm === '') {
-          displayBooks(myBooks);
+          displayBooks(books);
           return;
         }
 
-        const filteredBooks = myBooks.filter(book =>
+        const filteredBooks = books.filter(book =>
           book.title.toLowerCase().includes(searchTerm) ||
           book.author.toLowerCase().includes(searchTerm)
         );
-
-        if (filteredBooks.length === 0) {
-          const booksContainer = document.getElementById('booksContainer');
-          booksContainer.innerHTML = '<div class="no-results">No books found matching your search.</div>';
-          return;
-        }
 
         displayBooks(filteredBooks);
       });
@@ -1170,61 +1138,44 @@
         }
       });
 
-      // Filter buttons functionality
-      const filterButtons = document.querySelectorAll('.filter-btn');
+     // Filter buttons functionality
+     const filterButtons = document.querySelectorAll('.filter-btn');
 
-      filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          // Remove active class from all buttons
-          filterButtons.forEach(btn => btn.classList.remove('active'));
+filterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Remove active class from all buttons
+    filterButtons.forEach(btn => btn.classList.remove('active'));
 
-          // Add active class to clicked button
-          button.classList.add('active');
+    // Add active class to clicked button
+    button.classList.add('active');
 
-          const filterType = button.textContent;
-          let filteredBooks = [...myBooks];
+    const filterType = button.textContent;
+    let filteredBooks = [...books];
 
-          // Apply filter logic
-          if (filterType === 'Textbooks') {
-            filteredBooks = myBooks.filter(book =>
-              book.price > 30
-            );
-          } else if (filterType === 'Fiction') {
-            filteredBooks = myBooks.filter(book =>
-              book.price < 20
-            );
-          } else if (filterType === 'Non-Fiction') {
-            filteredBooks = myBooks.filter(book =>
-              book.price >= 20 && book.price <= 30
-            );
-          } else if (filterType === 'Price: Low to High') {
-            filteredBooks.sort((a, b) => a.price - b.price);
-          }
+    // Apply filter logic
+    if (filterType === 'Textbooks') {
+      filteredBooks = books.filter(book =>
+        book.type == "textbook"
+      );
+    } else if (filterType === 'Fiction') {
+      filteredBooks = books.filter(book =>
+        book.type == "fiction"
+      );
+    } else if (filterType === 'Non-Fiction') {
+      filteredBooks = books.filter(book =>
+        book.type == "nonfiction"
+      );
+    } else if (filterType === 'Price: Low to High') {
+      filteredBooks.sort((a, b) => a.price - b.price);
+    }
 
-          displayBooks(filteredBooks);
-        });
-      });
-
-      // Open form modal
-      document.getElementById('openFormBtn').addEventListener('click', () => {
-        document.getElementById('popupForm').style.display = 'block';
-      });
-
-      // Close form modal
-      document.getElementById('closePopupBtn').addEventListener('click', () => {
-        document.getElementById('popupForm').style.display = 'none';
-      });
-
-      // Close form modal when clicking outside
-      window.addEventListener('click', (e) => {
-        if (e.target === document.getElementById('popupForm')) {
-          document.getElementById('popupForm').style.display = 'none';
-        }
-      });
+    displayBooks(filteredBooks);
+  });
+});
 
       const navPaths = [
         'dashboard.html',
-        'my-books.html', // needs to be worked on
+        'myBooks.html', // needs to be worked on
         'saved.html', //complete
         'basket.html', // complete
         'editUser.html' //complete
@@ -1238,7 +1189,7 @@
       const basketItem = document.querySelector('.sidebar-item:nth-child(4)');
       const dashboardItem = document.querySelector('.sidebar-item:nth-child(1)');
       const savedItem = document.querySelector('.sidebar-item:nth-child(3)');
-      const mybooksItem = document.querySelector('.sidebar-item:nth-child(2)');
+      const myBookItem = document.querySelector('.sidebar-item:nth-child(2)');
 
       sidebarItems.forEach((item, index) => {
         item.addEventListener('click', () => {
@@ -1262,8 +1213,8 @@
             window.location.href = 'saved.html';
           }
 
-          if (item == mybooksItem) {
-            window.location.href = 'my-books.html';
+          if (item == myBookItem){
+            window.location.href = 'myBooks.html';
           }
 
         });
@@ -1305,11 +1256,7 @@
       });
 
       confirmDelete.addEventListener('click', () => {
-        // Clear user data
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        // Redirect to home page
-        window.location.href = '/';
+        deleteAccountFirestore();
       });
 
       cancelDelete.addEventListener('click', () => {
@@ -1325,7 +1272,7 @@
 
       // Add basket functionality
       function addToBasket(bookId) {
-        const book = sampleBooks.find(b => b.id === bookId);
+        const book = books.find(b => b.id === bookId);
         if (!book) return;
 
         let basket = JSON.parse(localStorage.getItem('basket')) || [];
@@ -1336,7 +1283,7 @@
       }
 
       function saveBook(bookId) {
-        const book = sampleBooks.find(b => b.id === bookId);
+        const book = books.find(b => b.id === bookId);
         if (book) {
           let savedBooks = JSON.parse(localStorage.getItem('savedBooks')) || [];
           if (!savedBooks.some(b => b.id === bookId)) {
@@ -1348,36 +1295,7 @@
           }
         }
       }
-
-      // Function to clear all localStorage
-      function clearLocalStorage() {
-        localStorage.clear();
-        alert('All localStorage contents have been cleared!');
-        // Refresh the page to show empty state
-        window.location.reload();
-      }
-
-      // Add clear storage button to user menu
-      const clearStorageItem = document.createElement('div');
-      clearStorageItem.className = 'menu-item delete';
-      clearStorageItem.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 6h18"></path>
-          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-        </svg>
-        Clear All Data
-      `;
-      clearStorageItem.addEventListener('click', clearLocalStorage);
-      userMenu.insertBefore(clearStorageItem, userMenu.firstChild);
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script src="firebase.js"></script>
-    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID"></script>
     <script>
       paypal.Buttons({
         createOrder: function (data, actions) {

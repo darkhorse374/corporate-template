@@ -26,10 +26,8 @@
     }
 
     .header {
-      position: fixed;
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
       background-color: #1925ff;
       color: white;
       padding: 1rem 2rem;
@@ -38,8 +36,8 @@
       align-items: center;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       height: 80px;
-      width: 100%;
-      z-index: 1000;
+      width: 100vw;
+      z-index: 10;
     }
 
     .logo {
@@ -324,11 +322,9 @@
       width: 250px;
       height: calc(100vh - 80px);
       top: 80px;
-      left: 0;
       background-color: white;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
       padding: 1.5rem 0;
-      z-index: 999;
     }
 
     .sidebar-menu {
@@ -361,7 +357,6 @@
     .main-content {
       margin-left: 250px;
       padding: 2rem;
-      margin-top: 80px;
     }
 
     .search-container {
@@ -927,6 +922,13 @@
 
           <label for="price" class="form-label">Price</label>
           <input type="number" id="price" class="form-input" required />
+
+          <label for="type" class="form-label">Book Type:</label>
+            <select id="type" class="form-input" name="type">
+              <option value="textbook">Textbook</option>
+              <option value="fiction">Fiction</option>
+              <option value="nonfiction">Nonfiction</option>
+            </select>
           <label for="photo" class="form-label">Photo Link</label>
           <input type="text" id="photo" class="form-input" required />
 
@@ -950,6 +952,14 @@
       </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID"></script>
     <script>
       // // Check if user is logged in
       // const token = localStorage.getItem('token');
@@ -978,70 +988,57 @@
       // Sample book data for testing
       const sampleBooks = [
         {
-          "id": 1,
-          "title": "Introduction to Computer Science",
-          "author": "John Smith",
-          "price": 45.99,
-          "image": "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
+          id: 1,
+          title: "Introduction to Computer Science",
+          author: "John Smith",
+          price: 45.99,
+          image: "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
         },
         {
-          "id": 2,
-          "title": "Calculus: Early Transcendentals",
-          "author": "James Stewart",
-          "price": 59.99,
-          "image": "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
+          id: 2,
+          title: "Calculus: Early Transcendentals",
+          author: "James Stewart",
+          price: 59.99,
+          image: "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
         },
         {
-          "id": 3,
-          "title": "The Great Gatsby",
-          "author": "F. Scott Fitzgerald",
-          "price": 12.50,
-          "image": "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
+          id: 3,
+          title: "The Great Gatsby",
+          author: "F. Scott Fitzgerald",
+          price: 12.50,
+          image: "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
         },
         {
-          "id": 4,
-          "title": "Organic Chemistry",
-          "author": "David Klein",
-          "price": 72.25,
-          "image": "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
+          id: 4,
+          title: "Organic Chemistry",
+          author: "David Klein",
+          price: 72.25,
+          image: "https://upload.wikimedia.org/wikipedia/en/1/14/Florida_Gators_gator_logo.svg"
         }
       ];
+      const books = [];
+      async function loadBooksFromFirestore() {
+  try {
+    const snapshot = await db.collection("textbooks").doc("sellingTextbooks").collection("books").orderBy("timestamp", "desc").get();
 
-      // Load books from localStorage or use sample books
-      let books = JSON.parse(localStorage.getItem('allBooks')) || sampleBooks;
-      displayBooks(books);
-
-      // Form submission handler
-      document.getElementById('textbookForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const newBook = {
-          id: Date.now(), // Generate unique ID
-          title: document.getElementById('textbookName').value,
-          author: document.getElementById('author').value,
-          price: parseFloat(document.getElementById('price').value),
-          image: document.getElementById('photo').value
-        };
-
-        // Add to allBooks array
-        let allBooks = JSON.parse(localStorage.getItem('allBooks')) || [];
-        allBooks.push(newBook);
-        localStorage.setItem('allBooks', JSON.stringify(allBooks));
-
-        // Also save to myBooks for my-books page
-        let myBooks = JSON.parse(localStorage.getItem('myBooks')) || [];
-        myBooks.push(newBook);
-        localStorage.setItem('myBooks', JSON.stringify(myBooks));
-        
-        // Update display
-        displayBooks(allBooks);
-        
-        // Reset form and close modal
-        this.reset();
-        document.getElementById('popupForm').style.display = 'none';
-        
-        alert('Book added successfully!');
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      books.push({
+        id: data.id,
+        title: data.name || "Untitled",
+        author: data.author || "Unknown",
+        price: data.price || 0.0,
+        type: data.type,
+        image: data.photo || "https://via.placeholder.com/100"
       });
+    });
+
+    displayBooks(books);
+  } catch (error) {
+    console.error("Error loading books from Firestore:", error);
+  }
+}
+      loadBooksFromFirestore();
 
       // Function to display books
       function displayBooks(books) {
@@ -1090,11 +1087,11 @@
       searchBtn.addEventListener('click', () => {
         const searchTerm = searchInput.value.toLowerCase().trim();
         if (searchTerm === '') {
-          displayBooks(sampleBooks);
+          displayBooks(books);
           return;
         }
 
-        const filteredBooks = sampleBooks.filter(book =>
+        const filteredBooks = books.filter(book =>
           book.title.toLowerCase().includes(searchTerm) ||
           book.author.toLowerCase().includes(searchTerm)
         );
@@ -1121,20 +1118,20 @@
           button.classList.add('active');
 
           const filterType = button.textContent;
-          let filteredBooks = [...sampleBooks];
+          let filteredBooks = [...books];
 
           // Apply filter logic
           if (filterType === 'Textbooks') {
-            filteredBooks = sampleBooks.filter(book =>
-              book.price > 30
+            filteredBooks = books.filter(book =>
+              book.type == "textbook"
             );
           } else if (filterType === 'Fiction') {
-            filteredBooks = sampleBooks.filter(book =>
-              book.price < 20
+            filteredBooks = books.filter(book =>
+              book.type == "fiction"
             );
           } else if (filterType === 'Non-Fiction') {
-            filteredBooks = sampleBooks.filter(book =>
-              book.price >= 20 && book.price <= 30
+            filteredBooks = books.filter(book =>
+              book.type == "nonfiction"
             );
           } else if (filterType === 'Price: Low to High') {
             filteredBooks.sort((a, b) => a.price - b.price);
@@ -1146,7 +1143,7 @@
 
       const navPaths = [
         'dashboard.html',
-        'my-books.html', // needs to be worked on
+        'myBooks.html', // needs to be worked on
         'saved.html', //complete
         'basket.html', // complete
         'editUser.html' //complete
@@ -1160,7 +1157,7 @@
       const basketItem = document.querySelector('.sidebar-item:nth-child(4)');
       const dashboardItem = document.querySelector('.sidebar-item:nth-child(1)');
       const savedItem = document.querySelector('.sidebar-item:nth-child(3)');
-      const mybooksItem = document.querySelector('.sidebar-item:nth-child(2)');
+      const myBookItem = document.querySelector('.sidebar-item:nth-child(2)');
 
       sidebarItems.forEach((item, index) => {
         item.addEventListener('click', () => {
@@ -1184,8 +1181,8 @@
             window.location.href = 'saved.html';
           }
 
-          if (item == mybooksItem) {
-            window.location.href = 'my-books.html';
+          if (item == myBookItem){
+            window.location.href = 'myBooks.html';
           }
 
         });
@@ -1227,11 +1224,7 @@
       });
 
       confirmDelete.addEventListener('click', () => {
-        // Clear user data
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        // Redirect to home page
-        window.location.href = '/';
+        deleteAccountFirestore();
       });
 
       cancelDelete.addEventListener('click', () => {
@@ -1247,7 +1240,7 @@
 
       // Add basket functionality
       function addToBasket(bookId) {
-        const book = sampleBooks.find(b => b.id === bookId);
+        const book = books.find(b => b.id === bookId);
         if (!book) return;
 
         let basket = JSON.parse(localStorage.getItem('basket')) || [];
@@ -1258,7 +1251,7 @@
       }
 
       function saveBook(bookId) {
-        const book = sampleBooks.find(b => b.id === bookId);
+        const book = books.find(b => b.id === bookId);
         if (book) {
           let savedBooks = JSON.parse(localStorage.getItem('savedBooks')) || [];
           if (!savedBooks.some(b => b.id === bookId)) {
@@ -1271,14 +1264,6 @@
         }
       }
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script src="firebase.js"></script>
-    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID"></script>
     <script>
       paypal.Buttons({
         createOrder: function (data, actions) {

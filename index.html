@@ -20,28 +20,6 @@
       height: 100vh;
     }
 
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background-color: #1925ff;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      height: 80px;
-      width: 100%;
-      z-index: 1000;
-    }
-
-    .main-content {
-      margin-top: 80px;
-      padding: 2rem;
-    }
-
     .header-logo {
       display: flex;
       align-items: center;
@@ -185,16 +163,6 @@
 </div>
 
 <script>
-  // DOM Elements
-  // const loginForm = document.getElementById('loginForm');
-  // const registerForm = document.getElementById('registerForm');
-  // const showRegister = document.getElementById('showRegister');
-  // const showLogin = document.getElementById('showLogin');
-  // const loginMessage = document.getElementById('loginMessage');
-  // const registerMessage = document.getElementById('registerMessage');
-
-  // API URL - Change this to your server URL
-  const API_URL = 'http://localhost:5001/api';
 
   // Toggle between login and register forms
   showRegister.addEventListener('click', () => {
@@ -207,94 +175,6 @@
     loginForm.classList.remove('hide');
   });
 
-  // // Handle login form submission
-  // loginForm.addEventListener('submit', async (e) => {
-  //   e.preventDefault();
-
-  //   const email = document.getElementById('loginEmail').value;
-  //   const password = document.getElementById('loginPassword').value;
-
-  //   try {
-  //     const response = await fetch(`${API_URL}/login`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({ email, password })
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (!response.ok) {
-  //       throw new Error(data.msg || 'Login failed');
-  //     }
-
-  //     // Save token and user data to localStorage
-  //     localStorage.setItem('token', data.token);
-  //     localStorage.setItem('user', JSON.stringify(data.user));
-
-  //     // Show success message
-  //     loginMessage.textContent = 'Login successful! Redirecting...';
-  //     loginMessage.classList.remove('hide', 'error');
-  //     loginMessage.classList.add('success');
-
-  //     // Redirect to dashboard or home page after successful login
-  //     setTimeout(() => {
-  //       window.location.href = '/dashboard.html';
-  //     }, 1500);
-
-  //   } catch (error) {
-  //     // Show error message
-  //     loginMessage.textContent = error.message;
-  //     loginMessage.classList.remove('hide', 'success');
-  //     loginMessage.classList.add('error');
-  //   }
-  // });
-
-  // // Handle register form submission
-  // registerForm.addEventListener('submit', async (e) => {
-  //   e.preventDefault();
-
-  //   const name = document.getElementById('registerName').value;
-  //   const email = document.getElementById('registerEmail').value;
-  //   const password = document.getElementById('registerPassword').value;
-
-  //   try {
-  //     const response = await fetch(`${API_URL}/register`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({ name, email, password })
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (!response.ok) {
-  //       throw new Error(data.msg || 'Registration failed');
-  //     }
-
-  //     // Save token to localStorage
-  //     localStorage.setItem('token', data.token);
-
-  //     // Show success message
-  //     registerMessage.textContent = 'Registration successful! Redirecting to login...';
-  //     registerMessage.classList.remove('hide', 'error');
-  //     registerMessage.classList.add('success');
-
-  //     // Redirect to login after successful registration
-  //     setTimeout(() => {
-  //       registerForm.classList.add('hide');
-  //       loginForm.classList.remove('hide');
-  //     }, 1500);
-
-  //   } catch (error) {
-  //     // Show error message
-  //     registerMessage.textContent = error.message;
-  //     registerMessage.classList.remove('hide', 'success');
-  //     registerMessage.classList.add('error');
-  //   }
-  // });
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
